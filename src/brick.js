@@ -1,32 +1,42 @@
-function Brick() {
-  this.r = random(20, 80);
-  this.pos = createVector(random(100, width - 100), random(100, height - 400));
-  // this.total = 6; // it's a hexagon
-
-  this.total = random(2, 4) * 2;
-
-  this.color = color(random(50, 150), random(20, 100), random(80, 150));
-
-  this.display = function() {
-    push();
-    stroke(this.color);
-    fill(this.color);
-    translate(this.pos.x, this.pos.y);
-    beginShape();
+export default class Brick {
+  constructor(p5) {
+    this.r = p5.random(20, 80);
+    this.pos = p5.createVector(
+      p5.random(100, p5.width - 100),
+      p5.random(100, p5.height - 350)
+    );
+    // this.total = 6; // it's a hexagon
+    this.total = p5.random(2, 4) * 2;
+    this.color = p5.color(
+      p5.random(50, 150),
+      p5.random(20, 100),
+      p5.random(80, 150)
+    );
+  }
+  display(p5) {
+    p5.push();
+    p5.stroke(this.color);
+    p5.fill(this.color);
+    p5.translate(this.pos.x, this.pos.y);
+    p5.beginShape();
     for (let i = 0; i < this.total; i++) {
-      let angle = map(i, 0, this.total, 0, TWO_PI);
-      var x = this.r * cos(angle);
-      var y = this.r * sin(angle);
-      vertex(x, y);
+      let angle = p5.map(i, 0, this.total, 0, p5.TWO_PI);
+      var x = this.r * p5.cos(angle);
+      var y = this.r * p5.sin(angle);
+      p5.vertex(x, y);
     }
-    endShape(CLOSE);
-    pop(); // restores the default
-  };
+    p5.endShape(p5.CLOSE);
+    p5.pop(); // restores the default
+  }
 
-  this.shrink = function() {
+  shrink(p5) {
     var newB = [];
-    newB[0] = new Brick(this.pos, this.r);
+    newB[0] = new Brick(p5);
+
+    // below makes bricks shrink in its place but not fun
+    // newB[0].pos.x = this.pos.x;
+    // newB[0].pos.y = this.pos.y;
 
     return newB;
-  };
+  }
 }

@@ -1,34 +1,35 @@
-function Paddle() {
-  this.w = 160;
-  this.h = 20;
+export default class Paddle {
+  constructor(p5) {
+    this.w = 160;
+    this.h = 20;
 
-  this.isMovingLeft = false;
-  this.isMovingRight = false;
+    this.isMovingLeft = false;
+    this.isMovingRight = false;
 
-  this.pos = createVector(width / 2, height - 80);
+    this.pos = p5.createVector(p5.width / 2, p5.height - 80);
+  }
 
-  this.display = function() {
-    push();
-    fill(30);
+  display(p5) {
+    p5.push();
+    p5.fill(30);
+    p5.rect(this.pos.x, this.pos.y, this.w, this.h);
+    p5.pop();
+  }
 
-    rect(this.pos.x, this.pos.y, this.w, this.h);
-    pop();
-  };
-
-  this.move = function(step) {
+  move(step) {
     this.pos.x += step;
-  };
+  }
 
-  this.update = function() {
+  update(p5) {
     if (this.isMovingRight) {
       this.move(20);
     } else if (this.isMovingLeft) {
       this.move(-20);
     }
-  };
+  }
 
-  this.checkEdges = function() {
+  checkEdges(p5) {
     if (this.pos.x < 0) this.pos.x = 0;
-    else if (this.pos.x > width - this.w) this.pos.x = width - this.w;
-  };
+    else if (this.pos.x > p5.width - this.w) this.pos.x = p5.width - this.w;
+  }
 }
