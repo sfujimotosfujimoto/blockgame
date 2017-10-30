@@ -1,6 +1,8 @@
 "use strict";
 // import * as p from "../assets/p5";
 
+// var Paddle = require('./paddle');
+
 var paddle;
 var ball;
 var bricks = [];
@@ -9,7 +11,7 @@ var playingGame = false;
 var youWin = false;
 var winText, instructionText;
 
-var BRICK_NUM = 18;
+var BRICK_NUM = 30;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -42,6 +44,7 @@ function draw() {
 
   if (ball.pos.y > height) {
     ball.pos = createVector(paddle.pos.x + paddle.r, height - 500);
+    if (bricks.length < BRICK_NUM) createBricks(BRICK_NUM);
     gameOver = true;
   }
 
@@ -55,26 +58,26 @@ function draw() {
     winText.style("display", "block");
   } else {
     winText.style("display", "none");
-  }
 
-  if (gameOver) {
-    instructionText.style("display", "block");
-  } else {
-    instructionText.style("display", "none");
-  }
-
-  for (var j = bricks.length - 1; j >= 0; j--) {
-    if (ball.hits(bricks[j])) {
-      if (bricks[j].r >= 40) {
-        var newBricks = bricks[j].shrink();
-        bricks = bricks.concat(newBricks);
-      }
-      bricks.splice(j, 1);
-      ball.direction.y *= -1;
-      break;
+    if (gameOver) {
+      instructionText.style("display", "block");
+    } else {
+      instructionText.style("display", "none");
     }
-    // console.log("hit: ", j);
-    bricks[j].display();
+
+    for (var j = bricks.length - 1; j >= 0; j--) {
+      if (ball.hits(bricks[j])) {
+        if (bricks[j].r >= 40) {
+          var newBricks = bricks[j].shrink();
+          bricks = bricks.concat(newBricks);
+        }
+        bricks.splice(j, 1);
+        ball.direction.y *= -1;
+        break;
+      }
+      // console.log("hit: ", j);
+      bricks[j].display();
+    }
   }
 }
 
